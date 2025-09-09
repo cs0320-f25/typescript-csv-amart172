@@ -20,3 +20,26 @@ test("parseCSV yields only arrays", async () => {
     expect(Array.isArray(row)).toBe(true);
   }
 });
+
+const TEST_CSV = `Name,Age,Major,GPA
+Alice,20,Computer Science,3.8
+Bob,21,Economics,3.6
+Charlie,22,English,3.9`;
+
+test("parseCSV treats the first line as data by default", async () => {
+  const results = await parseCSV(TEST_CSV);
+
+  expect(results).toHaveLength(4); // header row + 3 data rows
+  expect(results[0]).toEqual(["Name", "Age", "Major", "GPA"]);
+  expect(results[1]).toEqual(["Alice", "20", "Computer Science", "3.8"]);
+});
+
+// Quoted commas should remain single field
+test("parseCSV keeps fields with commas intact", async () => {
+  const ROW_WITH_QUOTED = `Caesar,Julius,"veni, vidi, vici"`;
+  const results = await parseCSV(ROW_WITH_QUOTED);
+
+  expect(results).toHaveLength(1);
+  expect(results[0]).toEqual(["Caesar", "Julius", "veni, vidi, vici"]);
+  expect(results[0]).toHaveLength(3); // not 5
+});
