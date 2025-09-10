@@ -23,7 +23,8 @@ export type RowError = {
   raw: string[];
   issues: string[];
 }
-export async function parseCSV<T>(path: string, schema?: ZodType): Promise<string[][]> {
+// return errors if schema is provided
+export async function parseCSV<T>(path: string, schema?: ZodType<T>): Promise<string[][] | { data: T[], errors: RowError[] }> {
   // This initial block of code reads from a file in Node.js. The "rl"
   // value can be iterated over in a "for" loop. 
   const fileStream = fs.createReadStream(path);
@@ -33,15 +34,15 @@ export async function parseCSV<T>(path: string, schema?: ZodType): Promise<strin
   });
   
   // Create an empty array to hold the results
-  let result = []
-  
-  // We add the "await" here because file I/O is asynchronous. 
-  // We need to force TypeScript to _wait_ for a row before moving on. 
+  let result: string[][] = [];
+
+  // We add the "await" here because file I/O is asynchronous.
+  // We need to force TypeScript to _wait_ for a row before moving on.
   // More on this in class soon!
-  const rawRows: string[][] = []
+  const rawRows: string[][] = [];
   for await (const line of rl) {
     const values = line.split(",").map((v) => v.trim());
-    result.push(values)
+    result.push(values);
   }
   if (!schema) {
     return result;
@@ -57,11 +58,10 @@ export async function parseCSV<T>(path: string, schema?: ZodType): Promise<strin
       errors.push({
         row: i + 1,
         raw: row,
-        issues: parsed.error.errors.map((e) => e.message),
+        issues: parsed.error.errors.map((e: { message: any; }) => e.message),
       });
     }
   });
 
-  
-
+  return { data, errors};
 }
