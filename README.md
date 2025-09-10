@@ -59,7 +59,7 @@ Best LLM suggestions were:
 
     My initial ideas were solid, and I think at the base helped with functionality aspects. A lot of this came from carefully reading the documentation as well, to understand at the lowest level what CSV parsers are supposed to do. I also used an LLM to supplement that basic knowledge, asking basic questions like "What is a CSV parsers typical inputs and outputs. I first essentially copied the prompt from the documentation, which worked decently well. Then, I wanted more specific extensibility, so I asked along the lines of "What functions would a great csv parser have". That is where I got ideas that could make it very useful, like custom delimiters, enhanced error reporting, and supporting different encoding types. Error reporting resonated with me specifically, because when I code I tend to get a lot of errors, and helpful messages are huge for me.
 
-### Design Choices
+### Design Choices 
 
 ### 1340 Supplement
 
