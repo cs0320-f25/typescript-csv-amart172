@@ -1,0 +1,14 @@
+1. What makes a parser correct involves mainly turning each line of a file
+into the reight sequence of cells. It shouldn't lose or misrepresent any data.
+It should handle many edge cases, like empty fields, in a repeatable/predictable
+way the user can plan around. It should be able to handle schema accurately. Finally,
+it should handle all errors well, like clearly structuring errors, knowing when the error 
+is in the caller/schema or parser, and always produce an error to never produce hidden mistakes.
+
+2. For one, I could iterate my tests over and over to eventually hit most edge case/error situations
+that could possible occur. I could compare a slew of results to a parser I deem 'correct' to try and
+ensure I meet that same criteria.
+
+3. This sprint wasn't overly different from prior programming assignments I have done. Typescript and zod
+were a little confusing to me, so I leaned on LLMs to understand specfic syntax and break it down into 
+phrasing that was clear to me. 

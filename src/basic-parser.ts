@@ -23,6 +23,11 @@ export type RowError = {
   raw: string[];
   issues: string[];
 }
+export async function parseCSV(path: string): Promise<string[][]>;
+export async function parseCSV<T>(
+  path: string,
+  schema: ZodType<T>
+): Promise<{ data: T[]; errors: RowError[] }>;
 // return errors if schema is provided
 export async function parseCSV<T>(path: string, schema?: ZodType<T>): Promise<string[][] | { data: T[], errors: RowError[] }> {
   // This initial block of code reads from a file in Node.js. The "rl"
@@ -58,7 +63,7 @@ export async function parseCSV<T>(path: string, schema?: ZodType<T>): Promise<st
       errors.push({
         row: i + 1,
         raw: row,
-        issues: parsed.error.errors.map((e: { message: any; }) => e.message),
+        issues: parsed.error.issues.map((e: { message: any; }) => e.message),
       });
     }
   });
