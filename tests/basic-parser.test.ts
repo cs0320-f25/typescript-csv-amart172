@@ -86,3 +86,21 @@ test("parseCSV with schema: mixed valid/invalid rows -> returns both data and er
     expect(err.issues.length).toBeGreaterThan(0);
   }
 });
+const StrictRow = z.tuple([z.string().min(1), z.coerce.number()]);
+
+test("non-numeric age should fail validation ", async () => {
+  const result = await parseCSV(TEST_TWO_PATH, StrictRow);
+  const { data, errors } = {
+    data: (result.data as [string, number][]).map(([name, age]) => ({ name, age })),
+    errors: result.errors
+  } as {
+    data: { name: string; age: number }[];
+    errors: { row: number; raw: string[]; issues: string[] }[];
+  };
+
+  // Row 3 in testtwo is "Eve, notanumber"
+  // this row should appear in errors, not in data
+  const badRowError = errors.find(e => e.row === 3);
+
+  expect(badRowError).toBeDefined();
+});
