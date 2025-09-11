@@ -3,8 +3,8 @@ import * as path from "path";
 import { z, ZodType } from "zod";
 
 const PEOPLE_CSV_PATH = path.join(__dirname, "../data/people.csv");
-const TEST_ONE_PATH = path.join(__dirname, "./data/testone.csv");
-const TEST_TWO_PATH = path.join(__dirname, "./data/testtwo.csv");
+const TEST_ONE_PATH = path.join("/Users/aaronmartin/school/cs32/sprint 1/data/testone.csv");
+const TEST_TWO_PATH = path.join("/Users/aaronmartin/school/cs32/sprint 1/data/testtwo.csv");
 
 test("parseCSV yields arrays", async () => {
   const results = await parseCSV(PEOPLE_CSV_PATH)
