@@ -39,26 +39,25 @@ export async function parseCSV<T>(path: string, schema?: ZodType<T>): Promise<st
   });
   
   // Create an empty array to hold the results
-  let result: string[][] = [];
+  let rows: string[][] = [];
 
   // We add the "await" here because file I/O is asynchronous.
   // We need to force TypeScript to _wait_ for a row before moving on.
   // More on this in class soon!
-  const rawRows: string[][] = [];
   for await (const line of rl) {
     const values = line.split(",").map((v) => v.trim());
-    result.push(values);
+    rows.push(values);
   }
   if (!schema) {
-    return result;
+    return rows;
   }
 
   const data: T[] = [];
   const errors: RowError[] = [];
-  result.forEach((row, i) => {
+  rows.forEach((row, i) => {
     const parsed = schema.safeParse(row);
     if (parsed.success) {
-      data.push(parsed.data as T);
+      data.push(parsed.data);
     } else {
       errors.push({
         row: i + 1,

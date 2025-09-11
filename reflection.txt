@@ -11,4 +11,8 @@ ensure I meet that same criteria.
 
 3. This sprint wasn't overly different from prior programming assignments I have done. Typescript and zod
 were a little confusing to me, so I leaned on LLMs to understand specfic syntax and break it down into 
-phrasing that was clear to me. 
+phrasing that was clear to me. I had a few minor bugs. For one, I was struggling with my type handling on inputs and outputs.
+I handling the two cases, one where the caller uses a schema and one where they do not had some complications I 
+was unfamiliar in how to deal with in Typescript. I needed the | and could present two options, it turned out. 
+Also, for my custom test CSVs, the method to find the path for people.csv wasn't working, so I just manually did it. For the actual
+parser, I didn't run into too much difficulty. The safeParse method in the 'Thinking like an Engineer' doc was very helpful. 
