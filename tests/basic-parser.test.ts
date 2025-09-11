@@ -29,7 +29,7 @@ const RowSchema = z.tuple([z.string().min(1), z.string().regex(/^\d+$/)]);
 test("parseCSV trims whitespace and preserves extra columns when no schema is provided", async () => {
   const results = await parseCSV(TEST_TWO_PATH);
 
-  // file has 6 lines (see fixture below)
+  // file has 6 lines
   expect(results).toHaveLength(6);
 
   // Line 1 in the file has spaces around both fields; they should be trimmed
@@ -38,10 +38,10 @@ test("parseCSV trims whitespace and preserves extra columns when no schema is pr
   // Line 4 has an extra column; without a schema, we keep all columns
   expect(results[3]).toEqual(["Frank", "27", "Extra"]);
 
-  // Line 2 is just a comma -> two empty strings after split+trim
+  // Line 2 is just a comma, two empty strings after split+trim
   expect(results[1]).toEqual(["", ""]);
 
-  // Line 6 is an empty line -> [""] after split
+  // Line 6 is an empty line, [""] after split
   expect(results[5]).toEqual([""]);
 });
 
@@ -53,7 +53,7 @@ test("parseCSV with schema: all rows valid -> returns data and no errors", async
 
   const { data, errors } = results as { data: [string, string][], errors: any[] };
 
-  // testone.csv has exactly 3 valid rows (see fixture below)
+  // testone.csv has exactly 3 valid rows
   expect(data).toHaveLength(3);
   expect(errors).toHaveLength(0);
 
@@ -71,7 +71,6 @@ test("parseCSV with schema: mixed valid/invalid rows -> returns both data and er
   };
 
   // Valid rows in testtwo.csv are lines 1 and 5 (Dana,19) and (Grace,27)
-  // (1-based row numbers in the test fixture below)
   expect(data).toEqual([
     ["Dana", "19"],
     ["Grace", "27"],
